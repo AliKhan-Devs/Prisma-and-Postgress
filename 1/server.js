@@ -5,6 +5,8 @@ import routes from './Routes/index.js'; // Importing the routes
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json()); // Middleware to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
+
 app.use(routes); // Using the imported routes
 
 app.get('/', (req, res) => {

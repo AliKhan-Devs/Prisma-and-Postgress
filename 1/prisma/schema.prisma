@@ -17,10 +17,39 @@ datasource db {
 // User model 
 
 model User {
-  id Int @id @default(autoincrement())
-  name String? // the ? sign shows optional field
-  email String @unique
-  password String? // the ? sign shows optional field optional because in OAuth there is no password
+  id        Int       @id @default(autoincrement())
+  name      String? // the ? sign shows optional field
+  email     String    @unique
+  password  String? // the ? sign shows optional field optional because in OAuth there is no password
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Post      Post[]
+  Comment   Comment[]
+}
+
+// Post model 
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String?
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  CommentCount Int @default(0) // Using BigInt for large comment counts
+  Comment   Comment[]
+}
+
+// Comment model
+
+model Comment {
+  id        String   @id @default(uuid()) // Using uuid for unique comment IDs and it is more secure than auto-increment because in this no one can guess the next comment id
+  content   String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

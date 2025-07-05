@@ -1,0 +1,1 @@
+This repostitory containt ristpull apis built with express, prisma and postgresql
